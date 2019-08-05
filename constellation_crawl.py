@@ -35,20 +35,21 @@ import re
 cons = ['aries','taurus','gemini','cancer','leo','virgo','libra',
         'scorpio','sagittarius','capricorn','aquarius','pisces']
 # 设定一个初始日期，获取这个日期之后的数据，我要获取7月数据
-date0 = datetime.strptime('20190701',r'%Y%m%d')
+date0 = datetime(2019,7,1)
 '''
 建立空列表存放获取到的链接
 遍历星座列表，每遍历一个星座，获取该星座一个月的链接
 '''
 urldic = []
 for f in cons:
-    i = 0
-    url = 'http://www.xzw.com/fortune/'
-    while i < 31:
-        day = timedelta(days=i)
-        date = date0 + day
-        urldic.append(url+str(f)+'/'+date.strftime(r'%Y%m%d')+'.html')
-        i += 1
+	i = 0
+	while i < 31:
+		day = timedelta(days=i)
+		date = date0 + day
+		date_str = date.strftime(r'%Y%m%d')
+		url = 'http://www.xzw.com/fortune/%s/%s.html'%(f,date_str)
+		urldic.append(url)
+		i += 1
 '''
 现在已经获取到所有星座的链接
 接下来遍历链接列表，每访问一个链接，解析，然后获取数据存放到字典
