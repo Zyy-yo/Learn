@@ -66,7 +66,7 @@ if __name__ == '__main__':
 
     # 每本书籍的数据信息网页
     dataurls = []
-    for i in pageurls:
+    for u in pageurls:
         dataurl = get_dataurl(u, dic_h, dic_c)
         dataurls.extend(dataurl)
         time.sleep(np.random.uniform(5,10))   

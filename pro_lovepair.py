@@ -57,18 +57,17 @@ test_m2 = maledata2.copy()
 test_f2 = femaledata2.copy()
 
 # 查看数据分布（男性数据）
-plt.figure()
-maledata2['character'].plot.hist(bins=100, edgecolor='w') 
-plt.savefig('实验样本内涵数据分布.png')
-
-plt.figure()
-maledata2['wealth'].plot.hist(bins=100, edgecolor='w')
-plt.savefig('实验样本财富数据分布.png')
-
-plt.figure()
-maledata2['appearance'].plot.hist(bins=100, edgecolor='w')  
-plt.savefig('实验样本外貌数据分布.png')
-
+def fig_hist(df, *cols):
+    fig = plt.figure(figsize=(12, 6))
+    i = 1
+    for col in cols:
+        ax = fig.add_subplot(1, 3, i)
+        ax.set_title('%s数据分布'%col)
+        df[col].plot.hist(bins=100, edgecolor='w')  
+        i += 1
+    plt.savefig('男性样本数据分布图.jpg')
+fig_hist(maledata2, 'character', 'wealth', 'appearance')
+    
 maledata2[['wealth', 'character', 'appearance']].iloc[:50].plot.bar(stacked=True)  # 堆叠柱状图查看
 plt.savefig('实验样本前50条数据堆叠图.png')
 
@@ -149,7 +148,7 @@ def run_model(df_m, df_f):
     print('择偶策略1匹配成功率是%.2f%%'%((len(pairs[pairs['strategies'] == 1]) / strategy1_size) * 100))
     print('择偶策略2匹配成功率是%.2f%%'%((len(pairs[pairs['strategies'] == 2]) / strategy2_size) * 100))
     print('择偶策略3匹配成功率是%.2f%%'%((len(pairs[pairs['strategies'] == 3]) / strategy3_size) * 100))
-    print('采取不同策略的男性各项平均分：\n', mean_m_bystrategy)
+    print('采取不同策略的男性各项平均分：\n', mean_m_bystrategy)  # 这个应该没啥意义，本身数据就是按照均值60生成的
     return pairs
 pair99 = run_model(test_m1, test_f1).reset_index(drop=True)    # 99条数据实验结果
 pair10000 = run_model(test_m2, test_f2)    # 10000条数据实验结果
